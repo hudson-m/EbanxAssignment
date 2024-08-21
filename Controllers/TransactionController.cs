@@ -1,13 +1,11 @@
 ﻿using EbanxAssignment.Interface;
 using EbanxAssignment.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace EbanxAssignment.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("")]
     public class TransactionController : Controller
     {
         public readonly ITransactionService _transactionService;
@@ -19,7 +17,16 @@ namespace EbanxAssignment.Controllers
             _accountService = accountService;
         }
 
-        // GET: TransactionController
+        [HttpPost]
+        [Route("reset")]
+        public IActionResult ResetState()
+        {
+            _accountService.ResetState();
+            return StatusCode(200);
+        }
+
+        [HttpGet]
+        [Route("balance")]
         public ActionResult GetBalance(string account_id)
         {
             Account account = _accountService.GetAccount(account_id);
@@ -27,15 +34,19 @@ namespace EbanxAssignment.Controllers
             if (account == null)
                 return NotFound(0);
 
-            return View(account.Balance);
+            return Ok(account.Balance);
         }
 
         [HttpPost]
+        [Route("event")]
         public ActionResult BankTransaction([FromBody] BankTransaction transaction)
         {
+            AccountTransaction? account_transaction = _transactionService.TransactionEvent(transaction);
 
+            if(account_transaction == null)
+                return NotFound(0);
 
-            return View();
+            return Created(string.Empty, account_transaction);
         }
     }
 }
