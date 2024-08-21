@@ -20,7 +20,7 @@ namespace EbanxAssignment.Controllers
         }
 
         // GET: TransactionController
-        public ActionResult GetBalance(int account_id)
+        public ActionResult GetBalance(string account_id)
         {
             Account account = _accountService.GetAccount(account_id);
 

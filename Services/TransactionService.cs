@@ -11,26 +11,5 @@ namespace EbanxAssignment.Services
         {
             _accountRepository = accountRepository;
         }
-
-        public dynamic Withdraw(string account_id)
-        {
-            Account? account = _accountRepository.GetAccounts().Where(x => x.Id == account_id).FirstOrDefault();
-
-            if (account == null)
-                return null;
-
-
-            return 0;
-        }
-
-        public dynamic Deposit()
-        {
-
-        }
-
-        public dynamic Transfer()
-        {
-
-        }
     }
 }

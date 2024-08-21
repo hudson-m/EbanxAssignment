@@ -1,6 +1,5 @@
 ﻿using EbanxAssignment.Interface;
 using EbanxAssignment.Models;
-using System.Transactions;
 
 namespace EbanxAssignment.Repository
 {
@@ -25,38 +24,23 @@ namespace EbanxAssignment.Repository
             return _accounts;
         }
 
-        public bool UpdateAccount(BankTransaction transaction)
+        public void CreateAccount(Account account)
         {
-            switch (transaction.Type)
+            _accounts.Add(account);
+        }
+
+        public void UpdateAccount(AccountTransaction account_transaction)
+        {
+            if (account_transaction.Origin != null)
             {
-                case "deposit" or "withdraw":
-                    Account account = _accounts.Where(x => x.Id == transaction.Destination).FirstOrDefault();
-
-                    if (account == null)
-                        return false;
-
-                    if(transaction.Type == "deposit")
-                        account.Balance =+ transaction.Amount;
-                    else
-                        account.Balance =- transaction.Amount;
-
-                    break;
-                case "transfer":
-                    Account? origin_account = _accounts.Where(x => x.Id == transaction.Origin).FirstOrDefault();
-                    Account? destination_account = _accounts.Where(x => x.Id == transaction.Destination).FirstOrDefault();
-
-                    if (origin_account == null)
-                        return false;
-                    if (destination_account == null) 
-                        return false;
-
-                    break;
-                default:
-                    break;
-
+                Account account_updated_origin = _accounts.FirstOrDefault(x => x.Id == account_transaction.Origin.Id);
+                account_updated_origin.Balance = account_transaction.Origin.Balance;
             }
-
-            return true;
+            if (account_transaction.Destination != null)
+            {
+                Account account_updated_destination = _accounts.FirstOrDefault(x => x.Id == account_transaction.Destination.Id);
+                account_updated_destination.Balance = account_transaction.Destination.Balance;
+            }
         }
     }
 }
