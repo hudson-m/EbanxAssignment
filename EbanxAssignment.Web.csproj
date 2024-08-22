@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EbanxAssignment.Application\**" />
+    <Compile Remove="EbanxAssignment.Domain\**" />
+    <Compile Remove="EbanxAssignment.Infrastructure\**" />
+    <Content Remove="EbanxAssignment.Application\**" />
+    <Content Remove="EbanxAssignment.Domain\**" />
+    <Content Remove="EbanxAssignment.Infrastructure\**" />
+    <EmbeddedResource Remove="EbanxAssignment.Application\**" />
+    <EmbeddedResource Remove="EbanxAssignment.Domain\**" />
+    <EmbeddedResource Remove="EbanxAssignment.Infrastructure\**" />
+    <None Remove="EbanxAssignment.Application\**" />
+    <None Remove="EbanxAssignment.Domain\**" />
+    <None Remove="EbanxAssignment.Infrastructure\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
